@@ -2,38 +2,42 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Free refrigerant PT chart and superheat/subcool calculator for HVAC and refrigeration techs. R-410A, R-454B, R-22, R-32, R-404A, R-448A and more. Works offline.">
-<meta name="theme-color" content="#151b1f">
+<meta name="description" content="ChillCheck: free superheat and subcool calculator, refrigerant PT chart, and service manual finder for AC and refrigeration techs. R-410A, R-454B, R-22, R-32, R-404A, R-448A and more. Works offline.">
+<meta name="theme-color" content="#06121f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
-<title>PT Pro</title>
+<title>ChillCheck</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a service-tech instrument panel. Low side (blue) and high side (red) mirror a manifold gauge set. */
+/* Layout: frost on an evaporator coil. A field of thin coil fins frosts the top of the page;
+   panels are frosted glass over it. Low side stays blue and high side red, like a manifold set. */
 :root{
-  --bg:#eaeef1; --surface:#ffffff; --sunk:#f3f6f8; --ink:#11171c; --muted:#56626c; --line:#cfd7dd;
-  --low:#1d5bd1; --low-soft:#e3ecfc; --high:#cc3326; --high-soft:#fbe7e4;
-  --mode-ac:#235fa8; --mode-rf:#0b7f80;
-  --ok:#1b7f47; --ok-soft:#e1f2e8; --warn:#9a6411; --warn-soft:#f8eed9; --bad:#b52b20;
-  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
-  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --bg:#e9f3f9; --glow:rgba(120,205,240,.45); --glow2:rgba(170,215,255,.35); --fin:rgba(12,40,66,.07);
+  --surface:rgba(255,255,255,.80); --sunk:#f1f7fb; --ink:#0b1e30; --muted:#4b6479; --line:rgba(11,30,48,.13);
+  --low:#1f5fd6; --low-soft:rgba(31,95,214,.10); --high:#d33a3a; --high-soft:rgba(211,58,58,.09);
+  --mode-ac:#0a7fb0; --mode-rf:#0e8a6f; --on:#ffffff;
+  --ok:#11845a; --ok-soft:rgba(17,132,90,.12); --warn:#9d6300; --warn-soft:rgba(200,130,0,.13); --bad:#c6352b;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mode:var(--mode-ac);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0d1114; --surface:#151b1f; --sunk:#10151a; --ink:#e6ecef; --muted:#8e9aa3; --line:#28323a;
-  --low:#5e95ff; --low-soft:#16233c; --high:#ff6a5c; --high-soft:#36191a;
-  --mode-ac:#6aa5ff; --mode-rf:#39c3c0;
-  --ok:#46c27c; --ok-soft:#12291c; --warn:#e3ab45; --warn-soft:#2e2412; --bad:#ff6a5c; color-scheme:dark}}
+  --bg:#06121f; --glow:rgba(64,170,230,.22); --glow2:rgba(110,240,200,.10); --fin:rgba(160,215,255,.06);
+  --surface:rgba(13,32,52,.72); --sunk:rgba(4,14,26,.55); --ink:#e8f5ff; --muted:#8ea8bd; --line:rgba(150,200,240,.15);
+  --low:#62a0ff; --low-soft:rgba(98,160,255,.13); --high:#ff6f6f; --high-soft:rgba(255,111,111,.12);
+  --mode-ac:#86e0ff; --mode-rf:#6ff0c9; --on:#03111d;
+  --ok:#4ddc9b; --ok-soft:rgba(77,220,155,.12); --warn:#ffc35c; --warn-soft:rgba(255,195,92,.12); --bad:#ff6f6f; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0d1114; --surface:#151b1f; --sunk:#10151a; --ink:#e6ecef; --muted:#8e9aa3; --line:#28323a;
-  --low:#5e95ff; --low-soft:#16233c; --high:#ff6a5c; --high-soft:#36191a;
-  --mode-ac:#6aa5ff; --mode-rf:#39c3c0;
-  --ok:#46c27c; --ok-soft:#12291c; --warn:#e3ab45; --warn-soft:#2e2412; --bad:#ff6a5c; color-scheme:dark}
+  --bg:#06121f; --glow:rgba(64,170,230,.22); --glow2:rgba(110,240,200,.10); --fin:rgba(160,215,255,.06);
+  --surface:rgba(13,32,52,.72); --sunk:rgba(4,14,26,.55); --ink:#e8f5ff; --muted:#8ea8bd; --line:rgba(150,200,240,.15);
+  --low:#62a0ff; --low-soft:rgba(98,160,255,.13); --high:#ff6f6f; --high-soft:rgba(255,111,111,.12);
+  --mode-ac:#86e0ff; --mode-rf:#6ff0c9; --on:#03111d;
+  --ok:#4ddc9b; --ok-soft:rgba(77,220,155,.12); --warn:#ffc35c; --warn-soft:rgba(255,195,92,.12); --bad:#ff6f6f; color-scheme:dark}
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45}
 .app{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:14px 40px;display:flex;flex-direction:column;gap:16px}
@@ -124,6 +128,19 @@ tr.ten td{color:var(--ink)} tr:not(.ten) td{color:var(--muted)}
 .recent{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .recent button{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:4px 10px;font-family:var(--f-mono);font-size:.82rem;cursor:pointer}
 .empty{color:var(--muted);font-size:.92rem;padding:8px 0}
+.jump{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.jump h3{margin:0 0 2px;font-family:var(--f-display);font-size:1.15rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.jrow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--jc,var(--mode));border-radius:12px;padding:12px 14px;min-width:0}
+a.jrow:hover{border-color:var(--mode)}
+.jrow .jl{font-weight:600;font-size:1.05rem}
+.jrow .jd{grid-column:1;font-size:.85rem;color:var(--muted);overflow-wrap:anywhere}
+.jrow .jp{grid-row:1 / span 2;grid-column:2;font-family:var(--f-display);font-weight:700;font-size:1rem;letter-spacing:.04em;text-transform:uppercase;color:var(--mode);white-space:nowrap}
+.jrow.wiring{--jc:var(--high)} .jrow.install{--jc:var(--low)} .jrow.troubleshooting,.jrow.codes{--jc:var(--warn)} .jrow.specs,.jrow.parts{--jc:var(--ok)}
+.jrow.wait{opacity:.7}
+.jmiss{font-size:.85rem;color:var(--muted)}
+.more{margin-top:22px;border-top:1px solid var(--line);padding-top:12px}
+.more summary{cursor:pointer;font-family:var(--f-display);font-size:1.05rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
 .go{border:0;background:var(--mode);color:var(--surface);font-weight:600;font-size:1.05rem;padding:13px 18px;border-radius:10px;cursor:pointer}
 .go:disabled{opacity:.6;cursor:progress}
 .docs{display:flex;flex-direction:column;gap:10px;margin-top:14px}
@@ -147,15 +164,72 @@ tr.ten td{color:var(--ink)} tr:not(.ten) td{color:var(--muted)}
 .status{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:14px;color:var(--muted);font-size:.92rem}
 @media (max-width:520px){.brand small{display:none}.readout .big{font-size:2.6rem}}
 @media (prefers-reduced-motion:no-preference){.chip,.seg button,.tabs button{transition:background .15s,color .15s,border-color .15s}}
+
+/* ChillCheck theme */
+body{background-color:var(--bg);background-image:radial-gradient(1100px 520px at 12% -12%,var(--glow),transparent 62%),radial-gradient(900px 420px at 105% -5%,var(--glow2),transparent 60%);background-attachment:fixed;font-size:16px}
+body::before{content:"";position:fixed;left:0;right:0;top:0;height:460px;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(90deg,var(--fin) 0 1px,transparent 1px 7px);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.45) 50%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.45) 50%,transparent 100%)}
+.app{position:relative;z-index:1;padding-block:22px 48px}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto;min-width:0}
+.brand .logo{width:46px;height:46px;flex:0 0 auto}
+.brand h1{font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,4.6vw,2.2rem);letter-spacing:-.01em;line-height:1.05;margin:0}
+.brand small{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
+.side,.card,.verdict,.jrow,.doc,.lk,.status,.chip,.seg,.icon-btn{background:var(--surface);-webkit-backdrop-filter:blur(12px) saturate(1.2);backdrop-filter:blur(12px) saturate(1.2)}
+.side,.card,.verdict{border-radius:18px}
+.seg{border-radius:12px}
+.seg button{border-radius:9px}
+.seg.mode button[aria-pressed="true"],.go{background:var(--mode);color:var(--on)}
+.seg button[aria-pressed="true"]:not(.mode button){box-shadow:0 1px 3px rgb(0 0 0 / .18)}
+.chip{font-family:var(--f-body);font-weight:700;font-size:1rem;letter-spacing:0}
+.chip[aria-pressed="true"]{background:var(--mode);color:var(--on);border-color:transparent;box-shadow:none}
+.tabs{gap:6px;border-bottom:1px solid var(--line)}
+.tabs button{font-family:var(--f-body);font-size:1.02rem;font-weight:700;letter-spacing:0;text-transform:none;padding:10px 12px}
+.side{border-top-width:3px}
+.side h2,.readout .lbl,.ptres .lbl,th,.verdict .tag,.jump h3,.dochd h3,.morehd,.more summary,.doc .kind,.jrow .jp{text-transform:none;letter-spacing:0}
+.side h2{font-family:var(--f-display);font-size:1rem;font-weight:600}
+.readout{border-radius:14px}
+.readout .lbl{font-family:var(--f-body);font-weight:700;font-size:.95rem}
+.readout .big{font-family:var(--f-display);font-weight:600;font-size:2.7rem;letter-spacing:-.02em}
+.readout .big small{font-size:1.05rem}
+.ptres .lbl{font-size:.82rem;font-weight:600}
+.ptres .v,.mini .v{font-family:var(--f-display);font-weight:600;letter-spacing:-.02em}
+.ptres .v{font-size:1.7rem}
+.mini .v{font-size:1.45rem}
+.inwrap input{font-family:var(--f-body);font-weight:600;font-size:1.3rem;font-variant-numeric:tabular-nums;border-radius:11px}
+.inwrap .u{font-family:var(--f-body);font-weight:500}
+.sat b{font-family:var(--f-body);font-weight:700;font-variant-numeric:tabular-nums}
+table{font-family:var(--f-body);font-variant-numeric:tabular-nums}
+th{font-size:.8rem;font-weight:700}
+.verdict .tag{font-family:var(--f-body);font-size:.85rem}
+.badge,.pill,.doc .m,.recent button{font-family:var(--f-body)}
+.jump h3,.dochd h3,.morehd{font-family:var(--f-display);font-size:1.05rem;font-weight:600}
+.more summary{font-family:var(--f-body);font-size:1rem;font-weight:700}
+.doc .kind{font-family:var(--f-body);font-size:.78rem}
+.jrow .jp{font-family:var(--f-body);font-size:.95rem}
+.detect b{font-family:var(--f-display);font-size:1.1rem;font-weight:600;letter-spacing:0}
+.foot{border-top-color:var(--line)}
+header{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px}
+.chip[aria-pressed="true"] .dot{box-shadow:0 0 0 2px var(--on)}
+.mform select{font-family:var(--f-body);font-weight:600}
+@media (max-width:640px){
+  header{grid-template-columns:1fr auto;grid-template-areas:"brand theme" "mode mode"}
+  header .brand{grid-area:brand} header #themeBtn{grid-area:theme} header .seg.mode{grid-area:mode;width:100%}
+  header .seg.mode button{flex:1}
+  .brand small{display:none} .readout .big{font-size:2.3rem}
+}
 </style>
 </head><body>
 
 
 <div class="app" id="app" data-mode="ac">
   <header>
-    <div class="brand"><h1>PT<span>Pro</span></h1><small>Pressure, temperature, superheat and subcool</small></div>
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><path d="M8.7 31.3A16 16 0 0 1 20 4" fill="none" stroke="var(--low)" stroke-width="3.6" stroke-linecap="round"/><path d="M20 4A16 16 0 0 1 31.3 31.3" fill="none" stroke="var(--high)" stroke-width="3.6" stroke-linecap="round"/><g stroke="var(--mode)" stroke-width="2.4" stroke-linecap="round"><path d="M20 12v16M13.1 16l13.8 8M13.1 24l13.8-8"/><path d="M18 13.5l2 1.6 2-1.6M18 26.5l2-1.6 2 1.6" fill="none" stroke-width="1.8"/></g></svg>
+      <div><h1>ChillCheck</h1><small>Charge check, PT chart and service manuals for AC and refrigeration</small></div>
+    </div>
     <div class="seg mode" role="group" aria-label="Mode">
-      <button id="m-ac" data-m="ac" aria-pressed="true">Air Conditioning</button>
+      <button id="m-ac" data-m="ac" aria-pressed="true">Air conditioning</button>
       <button id="m-rf" data-m="rf" aria-pressed="false">Refrigeration</button>
     </div>
     <button class="icon-btn" id="themeBtn" aria-label="Switch light or dark theme" title="Theme">
@@ -175,7 +249,7 @@ tr.ten td{color:var(--ink)} tr:not(.ten) td{color:var(--muted)}
   <section id="p-g" role="tabpanel" style="display:flex;flex-direction:column;gap:14px">
     <div class="sides">
       <div class="side low">
-        <h2 id="lowTitle">Low side · Suction</h2>
+        <h2 id="lowTitle">Low side</h2>
         <div class="fields">
           <div class="field"><label for="sp">Suction pressure</label><div class="inwrap"><input id="sp" inputmode="decimal" autocomplete="off"><span class="u">psig</span></div></div>
           <div class="field"><label for="st">Suction line temp</label><div class="inwrap"><input id="st" inputmode="decimal" autocomplete="off"><span class="u">°F</span></div></div>
@@ -204,7 +278,7 @@ tr.ten td{color:var(--ink)} tr:not(.ten) td{color:var(--muted)}
       </div>
 
       <div class="side high">
-        <h2>High side · Liquid line</h2>
+        <h2>High side</h2>
         <div class="fields">
           <div class="field"><label for="lp">Liquid pressure</label><div class="inwrap"><input id="lp" inputmode="decimal" autocomplete="off"><span class="u">psig</span></div></div>
           <div class="field"><label for="lt">Liquid line temp</label><div class="inwrap"><input id="lt" inputmode="decimal" autocomplete="off"><span class="u">°F</span></div></div>
@@ -246,13 +320,16 @@ tr.ten td{color:var(--ink)} tr:not(.ten) td{color:var(--muted)}
       <div class="detect" id="detect"></div>
       <div class="recent" id="recent"></div>
     </div>
+    <div class="jump" id="jump"></div>
     <div class="docs" id="docs"></div>
-    <h3 class="morehd">More ways to search</h3>
-    <div class="links" id="links"></div>
-    <p class="note" id="mtip"></p>
+    <details class="more" id="more">
+      <summary>Search the web yourself</summary>
+      <div class="links" id="links"></div>
+      <p class="note" id="mtip"></p>
+    </details>
   </section>
 
-  <div class="foot">Saturation data from CoolProp equations of state, with R-454B matched to Chemours' published table. Pressures are gauge pressure at sea level. Blends use dew point for superheat and bubble point for subcool.</div>
+  <div class="foot">ChillCheck is free for techs and students. Saturation data from CoolProp equations of state, with R-454B matched to Chemours' published table. Pressures are gauge pressure at sea level. Blends use dew point for superheat and bubble point for subcool.</div>
 </div>
 
 <script>
@@ -286,14 +363,14 @@ function renderRefs(){
   $('refs').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ state[mode].ref=b.dataset.r; save(); renderRefs(); calc(); renderPT(); });
   const r=R[state[mode].ref];
   const typ = r.psig ? (r.type==='pure'?'Single component':'Azeotrope, no glide') : (r.type==='near-azeotrope'?'Near-azeotrope, small glide':'Zeotropic blend, has glide');
-  $('refinfo').innerHTML = `<span class="badge ${r.safety_class}">${r.safety_class}</span><span>${r.common_use}</span><span>· ${typ}</span>`;
+  $('refinfo').innerHTML = `<span class="badge ${r.safety_class}">${r.safety_class}</span><span>${r.common_use}</span><span>${typ}</span>`;
 }
 
 function setMode(m){
   mode=m; store.set('mode',m); $('app').dataset.mode=m;
   $('m-ac').setAttribute('aria-pressed', m==='ac'); $('m-rf').setAttribute('aria-pressed', m==='rf');
   $('rfExtra').hidden = m!=='rf'; $('acExtra').hidden = m!=='ac';
-  $('lowTitle').textContent = m==='ac' ? 'Low side · Suction (vapor line)' : 'Low side · Suction';
+  $('lowTitle').textContent = 'Low side';
   $('scNote').hidden = m!=='ac';
   for(const k of ['sp','st','lp','lt','bt','wb','odb']) $(k).value = state[m][k] ?? '';
   renderRefs(); calc(); renderPT(true);
@@ -390,38 +467,63 @@ function showTab(t){ for(const k of ['g','p','m']){ $('t-'+k).setAttribute('aria
 
 // ---------- Manuals & diagrams ----------
 const BRANDS = [
-  {id:'mitsu', name:'Mitsubishi Electric', short:'Mitsubishi', d:['mitsubishicomfort.com','mylinkdrive.com'], re:/^(MSZ|MUZ|MXZ|MSY|MUY|MFZ|MLZ|SEZ|SLZ|SVZ|SUZ|PUZ|PUY|PUMY|PLA|PKA|PCA|PEAD|PEA|PVA|PVFY|KAZ|MUFZ)/,
+  // Ductless and mini-split (checked first: their prefixes are distinctive)
+  {id:'mitsu', name:'Mitsubishi Electric', short:'Mitsubishi', d:['mylinkdrive.com','mitsubishicomfort.com','mehvac.com'], re:/^(MSZ|MUZ|MXZ|MSY|MUY|MFZ|MLZ|SEZ|SLZ|SVZ|SUZ|PUZ|PUY|PUMY|PLA|PKA|PCA|PEAD|PEA|PVA|PVFY|KAZ|MUFZ|PLFY|PEFY|PKFY|PURY|PUHY|TPEFY|PWFY)/,
    portal:{name:'MyLinkDrive', url:'https://www.mylinkdrive.com/', d:'Mitsubishi\'s free document library. Search the model there.'}},
-  {id:'fujitsu', name:'Fujitsu', short:'Fujitsu', d:['fujitsugeneral.com'], re:/^(ASU|AOU|ARU(?!F)|AUU|ABU|AGU)/},
-  {id:'lg', name:'LG', short:'LG', d:['lghvac.com'], re:/^(LSN|LSU|LMN|LMU|LAN|LAU|LHN|LCN|LVN|ARUN|ARNU|ARUV|KUSX|KNSA)/},
-  {id:'daikinms', name:'Daikin (ductless)', short:'Daikin', d:['daikinac.com','daikincomfort.com'], re:/^(FTX|FTK|RXB|RXL|RXS|RXG|RXT|RX\d|RK\d|CTX|FDMQ|RZQ|FBQ|FCQ|FFQ|[2-5]MXS|[2-5]MXL)/},
+  {id:'fujitsu', name:'Fujitsu', short:'Fujitsu', d:['fujitsugeneral.com','fujitsu-general.com'], re:/^(ASU|AOU|ARU(?!F)|AUU|ABU|AGU|ASYG|AOYG|ARXB|AUXB|ABUG|AOUG)/},
+  {id:'lg', name:'LG', short:'LG', d:['lghvac.com','lg.com'], re:/^(LSN|LSU|LMN|LMU|LAN|LAU|LHN|LCN|LVN|ARUN|ARNU|ARUV|ARUB|KUSX|KNSA|LUU|LDN|LQN|LS\d{3}H)/},
+  {id:'samsung', name:'Samsung', short:'Samsung', d:['samsunghvac.com','samsung.com'], re:/^(AR\d\d[A-Z]|AJ\d{3}|AC\d{3}[A-Z]|AM\d{3}[A-Z]|AQV|NS\d{3}|MH\d{3})/},
+  {id:'gree', name:'Gree', short:'Gree', d:['greecomfort.com','gree.com'], re:/^(GWH|LIVS|LIVO|SAP\d|RIO\d|GUD|GMV\d|FLEX\d|NEO\d|CROWN|UMAT|U-MATCH)/},
+  {id:'mrcool', name:'MRCOOL', short:'MRCOOL', d:['mrcool.com'], re:/^(DIY-|MDUO|MST|MPC|ADV-|MDHA|MDUI|MDUO18|E-STAR)/},
+  {id:'daikinms', name:'Daikin (ductless and applied)', short:'Daikin', d:['daikinac.com','daikincomfort.com','daikinapplied.com'], re:/^(FTX|FTK|RXB|RXL|RXS|RXG|RXT|RX\d|RK\d|CTX|FDMQ|RZQ|FBQ|FCQ|FFQ|FXMQ|FXAQ|FXZQ|REYQ|RXYQ|[2-5]MXS|[2-5]MXL|WMC|AGZ|AWS|RPS|RDT|MPS|DPS|RAH|WGZ)/},
+  {id:'friedrich', name:'Friedrich', short:'Friedrich', d:['friedrich.com'], re:/^(PDE|PDH|PTAC|KCQ|SCQ|CCF|EQ08|EQ12|YS\d|XQ\d|WS\d|PVH|VEA|VHA|FPH|FPHW|KHS|KES|UES|ZHQ|ZQ\d)/},
+  // Residential and light commercial split systems, furnaces, packaged units
   {id:'goodman', name:'Goodman / Amana / Daikin', short:'Goodman', d:['goodmanmfg.com','amana-hac.com','daikincomfort.com'],
-   re:/^(GSX|GSZ|GMV|GMS|GME|GMH|GKS|GCV|GCS|GPG|GPC|GPH|GLX|GLZ|ARUF|ARPT|AVPT|AVPE|AMVT|AWUF|CAPF|CAUF|CHPF|CSCF|ASX|ASZ|AVXC|AVZC|AMVC|AMEC|AMES|AMH|ACVC|APG|ADVC|DX\d|DZ\d|DM\d|DC\d|DV\d)/},
-  {id:'icp', name:'Heil / Tempstar / Comfortmaker / Arcoaire (ICP)', short:'ICP', d:['heil-hvac.com','tempstar.com','comfortmaker.com','arcoaire.com'],
-   re:/^(N[4-9][A-Z]|NX[A-Z]|NH[0-9]|NT[A-Z]|FEM4|FSM4|FMA4|FMU4|FMC4)/,
+   re:/^(GSX|GSZ|GMV|GMS|GME|GMH|GKS|GCV|GCS|GPG|GPC|GPH|GLX|GLZ|GVXC|GVZC|GSXN|GSZB|GSXH|GZV|GSZC|GMEC|GMES|GMVC|GMVM|GCES|GCVC|GR9S|GC9S|GM9S|ARUF|ARPT|AVPT|AVPE|AMVT|AWUF|CAPF|CAPT|CAUF|CHPF|CSCF|CHPT|ASX|ASZ|ASXC|ASZC|AVXC|AVZC|AMVC|AMEC|AMES|AMH|ACVC|APG|ADVC|AMST|DX\d|DZ\d|DM\d|DC\d|DV\d|DSX|DSZ)/},
+  {id:'icp', name:'Heil / Tempstar / Comfortmaker / Arcoaire (ICP)', short:'ICP', d:['shareddocs.com','heil-hvac.com','tempstar.com','comfortmaker.com'],
+   re:/^(N[4-9][A-Z]|NX[A-Z]|NH[0-9]|NT[A-Z]|FEM4|FSM4|FMA4|FMU4|FMC4|F9MXE|F9MVE|G9MXE|G9MVE|N9MSB|N9MP|N8MSN|PGS|PHS|PGR|PHR|CA\d{2}NA|CH\d{2}NA)/,
    portal:{name:'HVACpartners', url:'https://www.hvacpartners.com/', d:'Carrier/ICP literature library. Dealer login required.'}},
-  {id:'carrier', name:'Carrier / Bryant / Payne', short:'Carrier', d:['carrier.com','bryant.com','payne.com'],
-   re:/^(24A|25H|24V|25V|38[A-Z]|40M|58[A-Z]|59[A-Z]|FV4|FX4|FE4|FB4|FY4|CNP|CAP|CSP|FMA4|FMC4|PG9|PG8|PH1|PA1|1[1-8]\d[A-Z]|2[1-8]\d[A-Z]|9[0-9]{2}[A-Z])/,
+  {id:'carrier', name:'Carrier / Bryant / Payne', short:'Carrier', d:['shareddocs.com','carrier.com','bryant.com','payne.com'],
+   re:/^(24A|25H|24V|25V|24S|25S|24T|25T|38[A-Z]|40[A-Z]|48[A-Z]|50[A-Z]|30[A-Z]|19[A-Z]|39M|58[A-Z]|59[A-Z]|FV4|FX4|FE4|FB4|FY4|FJ4|CNP|CAP|CSP|CNR|CAR|CVP|PG9|PG8|PH1|PA1|PY4|PH4|PA4|1[1-8]\d[A-Z]{2}|2[1-8]\d[A-Z]{2}|9[0-9]{2}[A-Z]{2}|FSM|FEM)/,
    portal:{name:'HVACpartners', url:'https://www.hvacpartners.com/', d:'Carrier\'s literature library. Dealer login required.'}},
-  {id:'trane', name:'Trane / American Standard', short:'Trane', d:['trane.com','americanstandardair.com'],
-   re:/^(4T[TWEXHNY]|2T[TWEXHN]|TU[DEHXY]|TD[DE]|S[89][XVB]|GAM|TEM|TAM|TWE|TWV|TTA|TTB|TWA|TWR|TTR|XR\d|XL\d|XV\d|XB\d|4A[67CW]|4M[XY]|AU[DHEXY]|ADD|AMV|AHV)/},
-  {id:'lennox', name:'Lennox', short:'Lennox', d:['lennox.com','lennoxpros.com'],
-   re:/^(XC\d|XP\d|EL\d|SL\d|ML\d|1[3-6]ACX|1[3-6]HPX|CBX|CBA|CBK|G6\d|G7\d|CX3|C33|CR33|LCC|LDP)/,
+  {id:'trane', name:'Trane / American Standard / Ameristar', short:'Trane', d:['tranetechnologies.com','trane.com','americanstandardair.com'],
+   re:/^(4T[TWEXHNYAG]|2T[TWEXHN]|4A[67CWH]|4M[XYH]|TU[DEHXY]|TD[DE]|S[89][XVB]|S9V|GAM|TEM|TAM|TWE|TWV|TTA|TTB|TWA|TWR|TTR|XR\d|XL\d|XV\d|XB\d|AU[DHEXY]|ADD|AMV|AHV|A9[CHM]|A8[CH]|4YCC|4YCY|4YCZ|4WCC|4WCY|4TCC|YSC|TSC|THC|YHC|WSC|WHC|YZC|GBC|GEH|GEV|CGAM|RTAC|RTAF|CVHE|CVHF|TCD|TCH|YCD|YCH|4TWR|4TWX|4TTX|4TTB|4TTA)/},
+  {id:'allied', name:'Armstrong / Ducane / AirEase / Concord (Allied)', short:'Allied', d:['alliedair.com','armstrongair.com','ducane.com','airease.com'],
+   re:/^(4SCU|4SHP|4SCA|4SHA|4AC1|4HP1|4ACA|4HPA|A9[2-7][A-Z]|A80|A95|G1D9|G1D8|CBA25|CBA27|EBA|BCE5|B4VM)/},
+  {id:'lennox', name:'Lennox', short:'Lennox', d:['lennoxpros.com','lennox.com'],
+   re:/^(XC\d|XP\d|EL\d|SL\d|ML\d|ML[1-9]|13ACX|14ACX|16ACX|1[3-6]HPX|CBX|CBA|CBK|CH23|C33|CR33|CX3|G6\d|G7\d|SLP|EL296|EL195|LGH|LCH|KGA|KCA|LGM|LCM|ZGA|ZCA|SGH|SCH|TGA|TCA|LGT|LCT|KHA|ZHA|MLA|MPB|MPA|MLB|LCC|LDP)/,
    portal:{name:'LennoxPROs', url:'https://www.lennoxpros.com/', d:'Lennox parts and literature. Some documents need a login.'}},
-  {id:'rheem', name:'Rheem / Ruud', short:'Rheem', d:['rheem.com','ruud.com'],
-   re:/^(RA1|RA2|RP1|RP2|RGPJ|RGRA|RGRC|RGEA|RGFE|R9[0-9][A-Z]|R80|RH1T|RH1P|RH2T|RHLL|RHPL|RHSL|RBHP|RCF|RCQ|UA1|UA2|UP1|UP2|U9[0-9]|U80|UH1T|UGRA|UGRC)/},
-  {id:'york', name:'York / Luxaire / Coleman (JCI)', short:'York', d:['york.com','luxaire.com','johnsoncontrols.com'],
-   re:/^(YC[A-Z]|YH[A-Z]|YXV|YZV|YXT|YZT|TM9|TM8|TG9|TG8|TL9|TL8|YP9|YP8|TCJF|THJF|TCGF|THGF|AC1|AC4|AH1|AH4|CZF|CZH|CZE|FC4|FL4|HMH)/},
+  {id:'rheem', name:'Rheem / Ruud', short:'Rheem', d:['rheem.com','ruud.com','myrheem.com'],
+   re:/^(RA1|RA2|RP1|RP2|RA14|RA16|RA17|RA20|RP15|RP17|RP20|RGPJ|RGRA|RGRC|RGEA|RGFE|RGRM|R9[0-9][A-Z]|R80|R92|R95|R96|R97|R98|RH1T|RH1P|RH2T|RHLL|RHPL|RHSL|RBHP|RCF|RCQ|RCM|RCH|RKKB|RKNL|RKPN|RLNL|RAWL|RQPM|RQRM|RACA|RPRL|RPRA|RHPA|RKKA|UA1|UA2|UP1|UP2|U9[0-9]|U80|UH1T|UGRA|UGRC|UACA|UAKA|UPNE|UKKA)/},
+  {id:'york', name:'York / Luxaire / Coleman (JCI)', short:'York', d:['york.com','johnsoncontrols.com','luxaire.com','coleman-hvac.com'],
+   re:/^(YC[A-Z]|YH[A-Z]|YXV|YZV|YXT|YZT|YCJF|YHJF|YCG|YHG|TM9|TM8|TG9|TG8|TL9|TL8|YP9|YP8|TCJF|THJF|TCGF|THGF|TCJD|THJD|AC1|AC4|AH1|AH4|CZF|CZH|CZE|FC4|FL4|HMH|ZF\d|ZJ\d|ZR\d|XP\d{3}|XN\d{3}|J\d\dZ|D[1-4][NHE]|B[1-4][CH]|YLAA|YCAL|YCIV|YVAA|AHE|AHR|AVC|MVC|MP\d\dB|MV\d\dC)/},
+  {id:'nortek', name:'Nortek (Frigidaire / Maytag / Gibson / Westinghouse / Broan / Intertherm / Miller)', short:'Nortek', d:['nortekhvac.com','nordyne.com'],
+   re:/^(F[ST][4-7]B|JS[4-7]B|JT[4-7]B|PPH|PPD|PSH|PSA|B[56][BV]M|B[56][BV]Z|M[67]R[LH]|M[67]M|M[67]V|M4R|E[1-3]E|E[1-3]B|ICS|IHP|VS4B|VT4B|FS4BE|FT4BE|FS4BF|FT4BF|IR4B|IR5B|IT4B|IT5B|GS4B)/},
+  {id:'bosch', name:'Bosch', short:'Bosch', d:['bosch-homecomfort.com','bosch-thermotechnology.us'], re:/^(BOVA|BVA|BMS|BOVB|IDS|BSH|BSC|B[GH]H|BGH96|BGS|BSG|BCHP|BOVA-|BVA-)/},
+  {id:'aaon', name:'AAON', short:'AAON', d:['aaon.com'], re:/^(RN-|RQ-|RZ-|CB-|F1-|V3-|H3-|M2-|LF-|SA-|CF-|CN-|WH-|LZ-)/},
+  {id:'modine', name:'Modine / Reznor', short:'Modine', d:['modinehvac.com','reznorhvac.com'], re:/^(HDS|HDB|PDP|PTP|UDAP|UDBP|UDX|UEZ|UDZ|EEDU|BDP|BTS|HER|DFS|RPV|RGM|UDAS|UDAP)/},
+  // Compressors
   {id:'copeland', name:'Copeland (compressor)', short:'Copeland', d:['copeland.com','emerson.com'], rf:true,
-   re:/^(ZPS|ZPV|ZP\d|ZS\d|ZB\d|ZR\d|ZF\d|ZX\d|ZH\d|CR\d|CS\d|CF\d|CJ\d|CT\d|KA\d|KS\d|RS\d|RST|[2-8]D[A-Z0-9])/},
-  {id:'heatcraft', name:'Heatcraft / Bohn / Larkin', short:'Heatcraft', d:['heatcraftrpd.com'], rf:true, re:/^(ADT|BHE|BHL|LET|LCE|LED|MOH|MOZ|PTN|PTT)\d/},
-  {id:'hoshizaki', name:'Hoshizaki', short:'Hoshizaki', d:['hoshizakiamerica.com'], rf:true,
-   re:/^(KM[A-Z]?-|KMD|KML|KMS|DCM|F-\d|FD-|AM-|URC-|CR1|CRMR|CRMF|R1A|F1A|R2A|F2A|RH1|RH2|FH1|FH2)/},
-  {id:'manitowoc', name:'Manitowoc Ice', short:'Manitowoc', d:['manitowocice.com'], rf:true, re:/^(IYT|IDT|IYF|IDF|IRT|IRF|ID\d|IY\d|IB\d|IR\d|IT\d|QD\d|QY\d|QR\d|SD\d|SY\d|UDF|UYF|UDP|UYP|RFF|RNF|RFS|RNS|CVD|IUF|IUP|UG\d|UD\d|UY\d|UR\d)/},
-  {id:'scotsman', name:'Scotsman', short:'Scotsman', d:['scotsman-ice.com'], rf:true, re:/^(C0[3-9]\d\d|C1[0-9]\d\d|CU\d{4}|MC\d{4}|EH\d{3}|NH\d{4}|NS\d{4}|MDT\d|HID\d|CME\d|FME\d|NME\d|UC\d{4}|UN\d{4}|DCE\d)/},
-  {id:'true', name:'True Refrigeration', short:'True', d:['truemfg.com'], rf:true, re:/^(T-\d|GDM-|TSSU|TUC|TWT|TPP|TSID|TM-|STA|STR|TBB|TD-|GDIM|TGM|TS-|TH-)/},
-  {id:'hussmann', name:'Hussmann', short:'Hussmann', d:['hussmann.com'], rf:true, re:/^$/},
-  {id:'samsung', name:'Samsung', short:'Samsung', d:['samsunghvac.com'], re:/^$/},
+   re:/^(ZPS|ZPV|ZP\d|ZS\d|ZB\d|ZR\d|ZF\d|ZX\d|ZH\d|ZPK|ZPD|ZRD|ZFD|ZRK|ZBK|CR\d|CS\d|CF\d|CJ\d|CT\d|KA\d|KS\d|RS\d|RST|[2-8]D[A-Z0-9]{2}|[2-6]D[BHFLSKR])/},
+  {id:'tecumseh', name:'Tecumseh (compressor)', short:'Tecumseh', d:['tecumseh.com'], rf:true, re:/^(AE[ABHZ]|AJ[ABHZ]|AK[ABHZ]|AW[ABG]|AV[ABA]|CA[EJ]\d|AH[AE]\d|SAE|SAJ|SAK|TH[ABG]\d|VS[ACH]\d|FH[24]\d|AG[AE]\d|RG[AE]\d|RK[AE]\d)/},
+  {id:'danfoss', name:'Danfoss / Maneurop / Secop (compressor)', short:'Danfoss', d:['danfoss.com'], rf:true, re:/^(MTZ|NTZ|MLZ|MT\d|SM\d{3}|SZ\d{3}|SH\d{3}|VZH|SY\d{3}|NF\d|NL\d|SC\d{2}|FR\d|TL\d|GS\d|DSH|LLZ)/},
+  {id:'bristol', name:'Bristol (compressor)', short:'Bristol', d:['bristolcompressors.com'], rf:true, re:/^H[2-8]\d[A-Z]\d{2}/},
+  // Commercial refrigeration
+  {id:'heatcraft', name:'Heatcraft / Bohn / Larkin / Climate Control / Chandler', short:'Heatcraft', d:['heatcraftrpd.com'], rf:true,
+   re:/^(ADT|BHE|BHL|BHA|BMA|LET|LCE|LED|LEDE|LCA|LLE|MOH|MOZ|PTN|PTT|PTE|BCH|BCT|HMSA|HMSB|LSF|LSA|LRP|LHP|LHT|ADR|ADH|BOH|BOL|BNH|BRH|BEH|LWE|MSB|MSA)\d?/},
+  {id:'hussmann', name:'Hussmann', short:'Hussmann', d:['hussmann.com'], rf:true, re:/^(RLN|RLNI|D5X|MWG|EXP-|GMD|CHE|RGL|IMPACT)/},
+  {id:'hillphx', name:'Hill Phoenix', short:'Hill Phoenix', d:['hillphoenix.com'], rf:true, re:/^(O[56]DM|ONIMH|OHFE|OVL|DMF|DFM|ORZ|OASIS|ONVH|ONLH|PRMT)/},
+  {id:'true', name:'True Refrigeration', short:'True', d:['truemfg.com'], rf:true, re:/^(T-\d|GDM-|TSSU|TUC|TWT|TPP|TSID|TM-|STA\d|STR\d|STG\d|TBB|TD-|GDIM|TGM|TS-|TH-|TFP|TAC|TCGG|TMC|TBC|TDR)/},
+  {id:'traulsen', name:'Traulsen', short:'Traulsen', d:['traulsen.com'], rf:true, re:/^(G1\d{4}|G2\d{4}|G3\d{4}|RHT|AHT|ULT|RLT|ALT|RET|TBC|TU\d|TS\d{4}|RRI|ARI)/},
+  {id:'bevair', name:'Beverage-Air', short:'Beverage-Air', d:['beverage-air.com'], rf:true, re:/^(KR\d|KF\d|HBR|HBF|SPE\d|SPED|UCR|UCF|BB\d|LV\d|MT\d|ST\d|DD\d|HR\dHC|HF\dHC|PRD|WTR|WTF|BM\d)/},
+  {id:'turboair', name:'Turbo Air', short:'Turbo Air', d:['turboairinc.com'], rf:true, re:/^(M3R|M3F|TSR-|TSF-|PRO-|TGM-|TUR-|TUF-|TST-|JUR-|JUF-|MSR-|TBP|TOM-|PRCBE)/},
+  // Ice machines
+  {id:'hoshizaki', name:'Hoshizaki', short:'Hoshizaki', d:['hoshizakiamerica.com','hoshizaki.com'], rf:true,
+   re:/^(KM[A-Z]?-?\d|KMD|KML|KMS|KMH|IM-|DCM|F-\d|FS-|FD-|AM-|URC-|SRK|CR1|CRMR|CRMF|R1A|F1A|R2A|F2A|RH1|RH2|FH1|FH2|UR\d|UF\d|HR\d|HF\d|B-\d|BD-|DB-)/},
+  {id:'manitowoc', name:'Manitowoc Ice', short:'Manitowoc', d:['manitowocice.com','welbilt.com','kitchencare.com'], rf:true, re:/^(IYT|IDT|IYF|IDF|IRT|IRF|IYP|IDP|ID\d|IY\d|IB\d|IR\d|IT\d|QD\d|QY\d|QR\d|SD\d|SY\d|UDF|UYF|UDP|UYP|RFF|RNF|RFS|RNS|CVD|IUF|IUP|UG\d|UD\d|UY\d|UR\d|NEO|RNP|RFP)/},
+  {id:'scotsman', name:'Scotsman', short:'Scotsman', d:['scotsman-ice.com'], rf:true, re:/^(C0[3-9]\d\d|C1[0-9]\d\d|C2[0-9]\d\d|CU\d{4}|CU\d{3}|MC\d{4}|EH\d{3}|EH\d{3}|NH\d{4}|NS\d{4}|MDT\d|HID\d|CME\d|FME\d|NME\d|UC\d{4}|UN\d{4}|DCE\d|CB\d{3,4}|N\d{4}[AWR]|F\d{4}[AWR]|EF\d{3}|MF\d{2}|CN\d{4})/},
+  {id:'iceomatic', name:'Ice-O-Matic', short:'Ice-O-Matic', d:['iceomatic.com'], rf:true, re:/^(ICE\d{4}|CIM\d|GEM\d|GEMU|MFI\d|ICEU\d|UCG\d|EF\d{3}|ERC\d|GEM0|IOD\d|B\d{2}PS)/},
+  {id:'follett', name:'Follett', short:'Follett', d:['follettice.com','follettproducts.com'], rf:true, re:/^(HCD\d|HMD\d|MCD\d|MFD\d|HCF\d|HMF\d|MCF\d|E7|E12|E15|E25|7UD|7CI|7FS|12CI|15CI|25CI|50CI|110CI)/},
 ];
 const BY = Object.fromEntries(BRANDS.map(b=>[b.id,b]));
 function detectBrand(m){ if(!m) return null; for(const b of BRANDS) if(b.re.test(m)) return b; return null; }
@@ -468,52 +570,131 @@ $('mdl').addEventListener('input',()=>{ mstate.model=$('mdl').value; store.set('
 $('ser').addEventListener('input',()=>{ mstate.serial=$('ser').value; store.set('m.serial',mstate.serial); renderManuals(); });
 $('brandSel').addEventListener('change',()=>{ mstate.brand=$('brandSel').value; store.set('m.brand',mstate.brand); renderManuals(); });
 $('links').addEventListener('click',e=>{ if(e.target.closest('a')) { addRecent(); renderRecent(); } });
-// Direct document results from the site's /api/docs function
+// Direct document results from the site's /api/docs and /api/sections functions
 const KINDS = [
-  ['wiring', 'Wiring', /wiring|schematic|connection diagram|ladder|electrical diagram/],
-  ['install','Install', /install/],
-  ['service','Service', /service|troubleshoot|sequence of operation|repair|fault|error code|diagnos/],
-  ['specs',  'Specs',   /spec|product data|technical guide|submittal|data sheet|dimension|engineering/],
-  ['owner',  'Owner',   /owner|user'?s? (manual|guide)|homeowner|operation manual/],
-  ['parts',  'Parts',   /parts? (list|manual|catalog)|replacement parts|illustrated parts/],
+  ['wiring','Wiring'],['service','Service'],['install','Install'],['parts','Parts'],['specs','Specs'],['owner','Owner'],['other','Doc'],
 ];
-function kindOf(r){ const s=(r.title+' '+r.snippet+' '+r.url).toLowerCase(); for(const [k,l,re] of KINDS) if(re.test(s)) return [k,l]; return ['other','Doc']; }
-let docState = { model:null, results:[], filter:'all', official:[] };
+const KLABEL = Object.fromEntries(KINDS);
+const JUMP = [
+  {k:'wiring',          label:'Wiring diagram',            sec:'wiring',          type:'wiring'},
+  {k:'troubleshooting', label:'Troubleshooting',           sec:'troubleshooting'},
+  {k:'sequence',        label:'Sequence of operation',     sec:'sequence'},
+  {k:'codes',           label:'Error and LED codes',       sec:'codes'},
+  {k:'install',         label:'Installation',              sec:'installation',    type:'install'},
+  {k:'startup',         label:'Start-up and checkout',     sec:'startup'},
+  {k:'charging',        label:'Charging and refrigerant checks', sec:'charging'},
+  {k:'maintenance',     label:'Cleaning and maintenance',  sec:'maintenance'},
+  {k:'parts',           label:'Parts list',                                       type:'parts'},
+  {k:'specs',           label:'Specs and electrical data', sec:'specs',           type:'specs'},
+];
+const DOCNAME = {service:'Service manual', install:'Installation manual', wiring:'Wiring diagram', parts:'Parts list', specs:'Spec sheet', owner:'Owner\'s manual', other:'Document'};
+let docState = { model:null, results:[], filter:'all', official:[], scans:{}, scanning:0 };
+const TORD = ['service','wiring','install','parts','specs','owner','other'];
+const normM = s => String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+function prepDocs(){
+  const {results, official, model} = docState, mm = normM(model);
+  return results.map((r,i)=>{
+    const types = r.types && r.types.length ? r.types : ['other'];
+    const off = r.trust ? r.trust==='official' : official.some(d=>r.host===d||r.host.endsWith('.'+d));
+    const tr = off ? 0 : r.trust==='trusted' ? 1 : r.trust ? 2 : 1;
+    const inName = mm.length>4 && normM(decodeURIComponent(r.url.split('/').pop()||'')).includes(mm.slice(0,6));
+    return {...r, types, k:types[0], off, tr, inName, i};
+  }).sort((a,b)=>(a.tr-b.tr)||(TORD.indexOf(a.k)-TORD.indexOf(b.k))||(b.inName-a.inName)||(a.i-b.i));
+}
+function pickJumps(items){
+  const scans = docState.scans, out = [], miss = [];
+  const scanned = items.filter(d=>scans[d.url] && scans[d.url].sections);
+  const order = d => d.types.includes('service') ? 0 : d.types.includes('wiring') ? 1 : d.types.includes('install') ? 2 : 3;
+  const scanOrder = [...scanned].sort((a,b)=>order(a)-order(b));
+  for(const j of JUMP){
+    let hit = null;
+    const typed = tr => j.type && items.find(x=>x.types.includes(j.type) && x.pdf && (tr ? x.tr<2 : x.tr===2));
+    const at = (d, sec) => { const v = scans[d.url] && scans[d.url].sections && scans[d.url].sections[sec]; return v ? v.page : 1; };
+    // 1) a document of that type from the manufacturer or a trusted supply house
+    let d = typed(true);
+    if(d) hit = {doc:d, page: at(d, j.sec)};
+    // 2) the matching section inside a manual we read
+    if(!hit && j.sec){
+      for(const x of scanOrder){ const sec = scans[x.url].sections[j.sec]; if(sec){ hit = {doc:x, page:sec.page, title:sec.title}; break; } }
+    }
+    // 3) last resort: a document of that type from an unverified site
+    if(!hit && (d = typed(false))) hit = {doc:d, page: at(d, j.sec)};
+    if(hit) out.push({...j, ...hit}); else miss.push(j.label);
+  }
+  return {out, miss};
+}
+function renderJump(items){
+  const box=$('jump');
+  if(!docState.model || !items.length){ box.innerHTML=''; return; }
+  const {out, miss} = pickJumps(items);
+  const waiting = docState.scanning > 0;
+  const docLabel = d => `${DOCNAME[d.types[0]]||'Document'} · ${esc(d.title||d.host).slice(0,70)}${d.tr===2?' · <span class="pill">Unverified source</span>':''}`;
+  box.innerHTML = `<h3>Jump to</h3>`
+    + out.map(o=>`<a class="jrow ${o.k}" href="${esc(o.doc.url)}${o.page>1?'#page='+o.page:''}" target="_blank" rel="noopener"><span class="jl">${o.label}</span><span class="jp">${o.page>1?'Page '+o.page:'Open'} ↗</span><span class="jd">${docLabel(o.doc)}</span></a>`).join('')
+    + (waiting ? `<div class="jrow wait"><span class="jl">Reading the manuals…</span><span class="jd">Finding the page for each section. This takes a few seconds.</span></div>` : '')
+    + (!waiting && miss.length ? `<div class="jmiss">Not found in these documents: ${miss.join(', ')}.</div>` : '');
+}
 function renderDocs(){
-  const box=$('docs'); const {results,filter,official,model,searched}=docState;
-  if(!model){ box.innerHTML=''; return; }
-  const items = results.map(r=>{ const [k,l]=kindOf(r); const off=official.some(d=>r.host===d||r.host.endsWith('.'+d)); return {...r,k,l,off}; })
-    .sort((a,b)=>(b.off-a.off) || (KINDS.findIndex(x=>x[0]===a.k)+99*(a.k==='other')) - (KINDS.findIndex(x=>x[0]===b.k)+99*(b.k==='other')));
-  if(!items.length){ box.innerHTML=`<div class="status">No PDFs found for ${esc(model)}. Check the model number on the data plate, or try the searches below.</div>`; return; }
+  const box=$('docs'); const {filter,model,searched}=docState;
+  if(!model){ box.innerHTML=''; $('jump').innerHTML=''; return; }
+  const items = prepDocs();
+  renderJump(items);
+  if(!items.length){ box.innerHTML=`<div class="status">No PDFs found for ${esc(model)}. Check the model number on the data plate, or use "Search the web yourself" below.</div>`; return; }
   const counts={}; items.forEach(i=>counts[i.k]=(counts[i.k]||0)+1);
   const shown = filter==='all' ? items : items.filter(i=>i.k===filter);
-  box.innerHTML = `<div class="dochd"><h3>${items.length} documents for ${esc(model)}</h3>${searched&&searched!==model?`<span class="note">Also searched ${esc(searched)}</span>`:''}</div>
-    <div class="filt">${[['all','All',items.length],...KINDS.filter(k=>counts[k[0]]).map(k=>[k[0],k[1],counts[k[0]]]),...(counts.other?[['other','Other',counts.other]]:[])]
+  box.innerHTML = `<div class="dochd"><h3>All documents (${items.length})</h3>${searched&&searched!==model?`<span class="note">Also searched ${esc(searched)}</span>`:''}</div>
+    <div class="filt">${[['all','All',items.length],...KINDS.filter(k=>counts[k[0]]).map(k=>[k[0],k[1],counts[k[0]]])]
       .map(([k,l,c])=>`<button data-f="${k}" aria-pressed="${filter===k}">${l} ${c}</button>`).join('')}</div>
-    ${shown.map(i=>`<a class="doc" href="${esc(i.url)}" target="_blank" rel="noopener"><span class="kind ${i.k}">${i.l}</span><span class="t">${esc(i.title||i.url)}</span><span class="m">${esc(i.host)}${i.pdf?' <span class="pill pdf">PDF</span>':''}${i.off?' <span class="pill off">Official</span>':''}</span>${i.snippet?`<span class="s">${esc(i.snippet)}</span>`:''}</a>`).join('')}`;
+    ${shown.map(i=>{ const sc=docState.scans[i.url]; const secs = sc && sc.sections ? Object.keys(sc.sections).length : 0;
+      return `<a class="doc" href="${esc(i.url)}" target="_blank" rel="noopener"><span class="kind ${i.k}">${KLABEL[i.k]||'Doc'}</span><span class="t">${esc(i.title||i.url)}</span><span class="m">${esc(i.host)}${i.pdf?' <span class="pill pdf">PDF</span>':''}${i.off?' <span class="pill off">Official</span>':i.tr===1?' <span class="pill">Trusted source</span>':' <span class="pill">Unverified</span>'}${secs?` <span class="pill">${secs} sections found</span>`:''}</span>${i.snippet?`<span class="s">${esc(i.snippet)}</span>`:''}</a>`; }).join('')}`;
   box.querySelectorAll('.filt button').forEach(b=>b.onclick=()=>{ docState.filter=b.dataset.f; renderDocs(); });
+}
+async function scanDoc(url, model){
+  const key='scan.'+url, c=store.get(key,null);
+  if(c && Date.now()-c.at < 30*864e5){ docState.scans[url]=c; return; }
+  try{
+    const r = await fetch('/api/sections?url='+encodeURIComponent(url));
+    const j = await r.json();
+    const v = r.ok ? {at:Date.now(), sections:j.sections||{}, pages:j.pages} : {at:Date.now(), error:j.error||'failed'};
+    if(r.ok) store.set(key, v);
+    if(docState.model===model) docState.scans[url]=v;
+  }catch(e){ if(docState.model===model) docState.scans[url]={error:'failed'}; }
+}
+async function scanDocs(){
+  const model=docState.model, all=prepDocs().filter(d=>d.pdf);
+  // Read documents from the manufacturer and trusted supply houses first
+  const good = all.filter(d=>d.tr<2), items = good.length ? good : all.slice(0,3);
+  const of = t => items.filter(d=>d.types.includes(t));
+  let pick = [...new Set([...of('service').slice(0,2), ...of('install').slice(0,1), ...of('wiring').slice(0,1), ...items.filter(d=>d.k==='other').slice(0,1), ...of('specs').slice(0,1)])];
+  if(!pick.length) pick = items.slice(0,2);
+  pick = pick.slice(0,5);
+  docState.scanning = pick.length; renderDocs();
+  await Promise.all(pick.map(d=>scanDoc(d.url, model).then(()=>{ if(docState.model===model){ docState.scanning--; renderDocs(); } })));
 }
 async function findDocs(){
   const m = mstate.model.trim().toUpperCase().replace(/\s+/g,'');
   if(m.length<3){ $('docs').innerHTML='<div class="status">Enter the full model number from the data plate.</div>'; return; }
   const b = mstate.brand==='auto' ? detectBrand(m) : BY[mstate.brand];
-  docState = { model:m, results:[], filter:'all', official: b ? b.d : [] };
+  docState = { model:m, results:[], filter:'all', official: b ? b.d : [], scans:{}, scanning:0 };
   addRecent(); renderRecent();
-  const cached = store.get('docs.'+m, null);
-  if(cached && Date.now()-cached.at < 7*864e5){ docState.results=cached.results; docState.searched=cached.searched; renderDocs(); return; }
+  const bid = b ? b.id : '';
+  const cached = store.get('docs3.'+m+'.'+bid, null);
+  if(cached && Date.now()-cached.at < 7*864e5){ docState.results=cached.results; docState.searched=cached.searched; renderDocs(); scanDocs(); return; }
   const btn=$('findBtn'); btn.disabled=true; btn.textContent='Searching…';
-  $('docs').innerHTML='<div class="status">Looking for wiring diagrams, manuals, and spec sheets…</div>';
+  $('jump').innerHTML='';
+  $('docs').innerHTML='<div class="status">Looking for service manuals, wiring diagrams, and install guides…</div>';
   try{
-    const r = await fetch('/api/docs?model='+encodeURIComponent(m));
+    const r = await fetch('/api/docs?model='+encodeURIComponent(m)+(bid?'&brand='+bid:''));
     const ct = r.headers.get('content-type')||'';
     if(!ct.includes('json')) throw new Error('offline');
     const j = await r.json();
     if(!r.ok) throw new Error(j.error||'Search failed. Try again.');
+    if(docState.model!==m) return;
     docState.results=j.results; docState.searched=j.searched;
-    store.set('docs.'+m,{at:Date.now(),results:j.results,searched:j.searched});
-    renderDocs();
+    store.set('docs3.'+m+'.'+bid,{at:Date.now(),results:j.results,searched:j.searched});
+    renderDocs(); scanDocs();
   }catch(e){
-    $('docs').innerHTML = `<div class="status">${e.message==='offline'||e.name==='TypeError' ? 'Direct document results work on the live site with an internet connection. Use the searches below for now.' : esc(e.message)}</div>`;
+    $('docs').innerHTML = `<div class="status">${e.message==='offline'||e.name==='TypeError' ? 'Document search works on the live site with an internet connection. Use "Search the web yourself" below for now.' : esc(e.message)}</div>`;
   }finally{ btn.disabled=false; btn.textContent='Find documents'; }
 }
 $('findBtn').onclick=findDocs;

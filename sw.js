@@ -1,6 +1,6 @@
 // Offline support: always try the network first so updates show right away,
 // and fall back to the saved copy only when offline.
-const VERSION='ptpro-v5';
+const VERSION='chillcheck-v8';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==VERSION).map(k=>caches.delete(k)))));self.clients.claim();});

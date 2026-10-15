@@ -1,0 +1,8 @@
+{
+  "name": "chillcheck",
+  "private": true,
+  "description": "ChillCheck: refrigerant PT chart, charge check, and equipment manual finder",
+  "dependencies": {
+    "unpdf": "1.8.1"
+  }
+}
